@@ -23,6 +23,7 @@ class GAWriter(object):
 orig_prog = "5 + 5 * 2 + 3"
 writer = GAWriter()
 
+# Mutation & Testing
 results = []
 for i in range(ITERATIONS):
     # Mutation
@@ -42,8 +43,18 @@ for i in range(ITERATIONS):
         results.append(ProgramResult(mod_prog, res, True))
 
 # Output
+## Stats
+stats_table = PrettyTable(field_names=['Stat', 'Value'])
+num_compiled = len([res for res in results if res.compiled]) / len(results)
+num_output = len([res for res in results if res.output]) / len(results)
+
+stats_table.add_row(['Output', '{0:.2f}%'.format(num_output * 100)])
+stats_table.add_row(['Compiled', '{0:.2f}%'.format(num_compiled * 100)])
+print(stats_table)
+
+## Print 
 print("\n** Results **")
-table = PrettyTable(field_names=ProgramResult._fields)
+results_table = PrettyTable(field_names=ProgramResult._fields)
 for res in results:
-    table.add_row(res)
-print(table)
+    results_table.add_row(res)
+print(results_table)
